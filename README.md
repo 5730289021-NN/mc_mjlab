@@ -186,8 +186,8 @@ Refer to the superbuild tutorial
 > [!CAUTION] The mc_rtc Python bindings and controller libraries come from the
 > sourced workspace (`PYTHONPATH`/`LD_LIBRARY_PATH`); run from a shell that has
 > it sourced. The workspace's bindings must be built for the same interpreter as
-> this package's venv (`requires-python` pins it): a version mismatch fails at
-> import, or worse, segfaults.
+> this package's venv (`.python-version` selects it, within `requires-python`): a
+> version mismatch fails at import, or worse, segfaults.
 
 ### ROS plugin: keep autoload disabled
 

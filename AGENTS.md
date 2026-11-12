@@ -19,8 +19,9 @@ one period in exchange for overlapping the solve with the GPU sim.
 - The mc_rtc Python bindings and controller libraries come from the sourced
   ROS workspace (`PYTHONPATH`/`LD_LIBRARY_PATH`). Run from a shell with it
   sourced; a missing workspace fails at import.
-- The bindings are interpreter-specific. `requires-python` pins the matching
-  interpreter and moves with whichever one the workspace builds for; a
+- The bindings are interpreter-specific. `requires-python` spans every
+  interpreter the code runs on (3.11-3.14); `.python-version` picks the one the
+  venv uses and must match the one the workspace's bindings are built for; a
   mismatch fails at import or segfaults.
 - Robot assets (MJCF, meshes, PD gains) are not tracked: they symlink on
   first use from `$HOME/workspace/install/share/mc_mujoco/<ROBOT>` (see
@@ -502,6 +503,6 @@ Cross-cutting invariants:
   its own it *falls* when the robot spends more time off the ground. Read it as
   `zmp_error / zmp_grounded`; that companion metric exists to be the denominator
   (`MetricsTermCfg.reduce` offers no masked mean).
-- `[tool.ruff] target-version` is pinned one interpreter below
+- `[tool.ruff] target-version` is pinned to the oldest interpreter in
   `requires-python` on purpose: otherwise ruff rewrites `except (A, B):`
   into PEP 758 syntax that older interpreters cannot parse. Keep the pin.

@@ -13,7 +13,7 @@ license = "Apache-2.0"
 authors = [{ name = "Martin Filliung" }]
 # mc_rtc's Python bindings are interpreter-specific: this pin must match the
 # interpreter the ROS workspace built them for (see README), and moves with it.
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.11,<3.15"
 dependencies = [
     # Where mjlab comes from (PyPI, local checkout, git) is a per-machine
     # choice: see "mjlab dependency" in the README.
@@ -96,10 +96,9 @@ extra-paths = ["scripts", "tests"]
 [tool.ruff]
 src = ["src"]
 indent-width = 2
-# Pin the formatter's target below requires-python: left to infer it, ruff
-# adopts newer-only syntax (e.g. PEP 758 `except A, B:`) that older
-# interpreters cannot parse, and requires-python moves with whichever
-# interpreter the mc_rtc bindings are built for.
+# Pin the formatter's target to the oldest interpreter in requires-python: left
+# to infer it, ruff can adopt newer-only syntax (e.g. PEP 758 `except A, B:`)
+# that older interpreters cannot parse.
 target-version = "py311"
 
 [tool.ruff.lint]
