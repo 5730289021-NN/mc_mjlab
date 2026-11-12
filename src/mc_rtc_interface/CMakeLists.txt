@@ -90,7 +90,14 @@ target_link_libraries(
   CLI11::CLI11
 )
 
-find_package(Boost REQUIRED COMPONENTS process)
+# Header-only before Boost 1.86, which has no process component. docs/build.md#boost_process
+find_package(Boost 1.86 QUIET COMPONENTS process)
+if(NOT Boost_FOUND)
+  find_package(Boost 1.83 REQUIRED)
+  add_library(Boost::process INTERFACE IMPORTED)
+  target_link_libraries(Boost::process INTERFACE Boost::headers)
+  target_compile_definitions(Boost::process INTERFACE BOOST_PROCESS_USE_STD_FS)
+endif()
 
 add_library(
   mc_rtc_interface_manager STATIC

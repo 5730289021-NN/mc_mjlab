@@ -1,7 +1,7 @@
 #pragma once
 
 #include <boost/asio/io_context.hpp>
-#include <boost/process.hpp>
+#include "hpp/boost_process.hpp"
 #include "hpp/ipc_socket.hpp"
 
 class ControllersManager

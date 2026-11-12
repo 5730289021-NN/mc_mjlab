@@ -1,7 +1,7 @@
 #include "hpp/controllers_manager.hpp"
 #include <algorithm>
 #include <boost/asio/io_context.hpp>
-#include <boost/process.hpp>
+#include "hpp/boost_process.hpp"
 #include <chrono>
 #ifndef WORKER_EXECUTABLE_PATH
     #include <dlfcn.h>

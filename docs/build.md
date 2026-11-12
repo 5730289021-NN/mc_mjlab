@@ -46,3 +46,24 @@ quiet setting either becomes unnecessary or starts hiding build errors.
 - 2026-09-16 — found via `run_test_mc_rtc.sh`, whose `$(...)` capture of the
   task id picked up the banner and passed a two-line task name to `play`. Set
   `editable.verbose = false`; the capture then returned the id alone.
+
+## boost_process
+
+**Current:** `ControllersManager` uses `boost::process::process` and
+`boost::process::current_pid()`, the Boost.Process API that is the default and a
+compiled `process` component from Boost 1.86. Ubuntu 24.04 ships Boost 1.83, which
+has no such component (and no `libboost-process-dev`); there the same API is the
+header-only `boost::process::v2`. `hpp/boost_process.hpp` includes whichever one
+the Boost version provides and, before 1.86, brings `process` and `current_pid`
+into `boost::process`, so the manager compiles unchanged. CMake asks for the
+`process` component first and otherwise defines a header-only `Boost::process`
+target with `BOOST_PROCESS_USE_STD_FS` (v2 then uses `std::filesystem` instead of
+linking Boost.Filesystem). The calls the manager makes on a child (`running(ec)`,
+`terminate(ec)`) have the same signatures in both.
+
+**Re-measure if:** the manager uses more of Boost.Process than `process`,
+`current_pid`, `running` and `terminate`, or the minimum Boost moves past 1.86.
+
+**History:**
+- 2026-11-12 — added to build on Ubuntu 24.04 (Boost 1.83, the arm64 mc_rtc image
+  with Python 3.12 bindings); Boost >= 1.86 takes the original path.
